@@ -27,7 +27,6 @@ public class RegularExpresions
 	
 	public static String mobileIsraelPhone()
 	{
-		//TODO
 		// string contains possible mobile phone number
 		//+972-<prefix two digits beginning from 5>-<7 digits of number>
 		//<prefix 3 digits: first - 0? second 5 third -any>-<7 digits of number>
