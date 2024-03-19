@@ -1,7 +1,8 @@
 package bbl.strings.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*; 
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import bbl.strings.RegularExpresions;
@@ -61,10 +62,12 @@ class RegualarExpresionsTest {
 	}
 	
 	@Test
-	void ipOctetTrueTest()
+	void ipOctetTest()
 	{
 		String regex=RegularExpresions.ipOctet();
 		assertTrue("0".matches(regex));
+		assertTrue("9".matches(regex));
+		assertTrue("99".matches(regex));
 		assertTrue("00".matches(regex));
 		assertTrue("000".matches(regex));
 		assertTrue("10".matches(regex));
@@ -73,6 +76,10 @@ class RegualarExpresionsTest {
 		assertTrue("010".matches(regex));
 		assertTrue("255".matches(regex));
 		assertTrue("010".matches(regex));
+		assertFalse("".matches(regex));
+		assertFalse("321".matches(regex));
+		assertFalse("256".matches(regex));
+		assertFalse("0001".matches(regex));
 	}
 	
 	@Test
@@ -104,4 +111,84 @@ class RegualarExpresionsTest {
 		assertFalse("053a434334".matches(regex));
 	}
 	
+	@Test
+	@DisplayName("test for ip v4 regular expression")
+	void ipV4adressTest()
+	{
+		String regex=RegularExpresions.ipV4adress();
+		assertTrue("1.2.3.4".matches(regex));
+		assertFalse("1.2.3".matches(regex));
+		assertFalse("1 2.3.4".matches(regex));
+		assertFalse("1. 2.3.4".matches(regex));
+		assertFalse("1.2.3.4.5".matches(regex));
+		assertFalse("1.2.3&4".matches(regex));
+	}
+	
+	@Test
+	@DisplayName("test of simple arithmetic expression")
+	void SimpleArithmeticExpressionTest()
+	{
+		String regex=RegularExpresions.SimpleArithmeticExpression();
+		assertTrue("20".matches(regex));
+		assertTrue(" 20+3 /2 *100".matches(regex));
+		assertTrue("10000-1 ".matches(regex));
+		assertFalse("-20".matches(regex));
+		assertFalse("20 ** 3".matches(regex));
+		assertFalse("20+3 /2 *100 +".matches(regex));
+	}
+	
+	@Test
+	@DisplayName ("test arithmetic expression with any numbers or variable names and brackets")
+	
+	void ArithmeticExpressionTest()
+	{
+		String regex=RegularExpresions.ArithmeticExpression();
+		assertTrue("(20.5+abc)*2".matches(regex));
+		assertTrue("(20.5+abc))*2".matches(regex));
+		assertTrue("(20.5+abc / 3)*(2".matches(regex));
+		assertTrue("(abc)".matches(regex));
+		assertFalse("2 + _".matches(regex));
+		assertFalse("2 + a12 * ".matches(regex));
+		assertFalse("2 + )a12".matches(regex));
+	}
+	
+	@Test
+	@DisplayName ("test for floating and integer constants")
+	void floatNumberAndIntegerExpressionTest()
+	{
+		String regex=RegularExpresions.floatNumberAndIntegerExpression();
+		assertTrue("0".matches(regex));
+		assertTrue("012".matches(regex));
+		assertTrue("129".matches(regex));
+		assertTrue("0.5".matches(regex));
+		assertTrue("1.456".matches(regex));
+		assertTrue("0.398".matches(regex));
+		assertTrue("1967.".matches(regex));
+		assertTrue(".0345".matches(regex));
+		assertFalse("".matches(regex));
+		assertFalse("123 945".matches(regex));
+		assertFalse(".".matches(regex));
+		assertFalse("-456.789".matches(regex));
+		assertFalse("456.$789".matches(regex));
+	}
+	
+	@Test
+	void operandOfArithmeticExpressionTest()
+	{
+		String regex=RegularExpresions.operandOfArithmeticExpression();
+		assertTrue("abc".matches(regex));
+		assertTrue("123".matches(regex));
+		assertTrue("12.33".matches(regex));
+		assertTrue("(abc".matches(regex));
+		assertTrue("abc)".matches(regex));
+		assertTrue("(aBc)".matches(regex));
+		assertTrue(" ( 123 ) ".matches(regex));
+		assertTrue("  ( abc )) ".matches(regex));
+		assertTrue("  ( abc )  ) ".matches(regex));
+		assertFalse("".matches(regex));
+		assertFalse(") abc".matches(regex));
+		assertFalse(" abc ( ".matches(regex));
+		assertFalse(") abc(".matches(regex));
+		assertFalse("abc+".matches(regex));		
+	}
 }
