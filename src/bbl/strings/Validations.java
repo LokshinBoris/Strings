@@ -20,7 +20,7 @@ public class Validations
 		while ( index<expression.length() && counter>=0)
 		{
 			if(expression.charAt(index)=='(') counter++;
-			if(expression.charAt(index)==')') counter--;
+			else if(expression.charAt(index)==')') counter--;
 			index++;
 		}
 		return counter==0;

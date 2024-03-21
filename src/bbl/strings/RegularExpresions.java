@@ -76,7 +76,7 @@ public class RegularExpresions
 	
 	public static String operandOfArithmeticExpression()
 	{
-		String operand=String.format("\\s*([(]\\s*)*\\s*(%1$s|%2$s)(\\s*[)])*\\s*", floatNumberAndIntegerExpression(),javaVariableForOperand());
+		String operand=String.format("([\\s(]*(%1$s|%2$s)[\\s)]*)", floatNumberAndIntegerExpression(),javaVariableForOperand());
 		return operand; 
 	}
 	
